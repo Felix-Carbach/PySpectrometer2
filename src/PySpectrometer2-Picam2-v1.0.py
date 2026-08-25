@@ -61,9 +61,10 @@ picam2 = Picamera2()
 
 picamGain = 10.0
 
-video_config = picam2.create_video_configuration(main={"format": 'RGB888', "size": (frameWidth, frameHeight)}, controls={"FrameDurationLimits": (33333, 33333)})
+video_config = picam2.create_video_configuration(main={"format": 'RGB888', "size": (frameWidth, frameHeight)}, raw={"size": (2028, 1520)}, controls={"FrameDurationLimits": (33333, 33333)})
 picam2.configure(video_config)
 picam2.start()
+picam2.set_controls({"AeEnable": False, "AwbEnable": False, "ExposureTime": 100000, "AnalogueGain": picamGain, "ColourGains": (1.0, 1.0)})
 
 #Change analog gain
 #picam2.set_controls({"AnalogueGain": 10.0}) #Default 1
@@ -168,7 +169,7 @@ def snapshot(savedata):
 while True:
 	# Capture frame-by-frame
 	frame = picam2.capture_array()
-	y=int((frameHeight/2)-40) #origin of the vertical crop
+	y=287 #manuell ermittelte Position (Zeile 327 zentriert, FOV-Fix)
 	#y=200 	#origin of the vert crop
 	x=0   	#origin of the horiz crop
 	h=80 	#height of the crop
